@@ -24,6 +24,10 @@ def go(args):
     logger.info("Filtering data by price range")
     df = df[(df.price >= args.min_price) & (df.price <= args.max_price)]
 
+    logger.info("Filtering data by geographical bounds")
+    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    df = df[idx].copy()
+
     df.to_csv(args.output_artifact, index=False)
 
     logger.info("Logging artifact")
